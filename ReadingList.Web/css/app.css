@@ -1,0 +1,9 @@
+﻿.input-group-login {
+    margin: 10px;
+}
+.btn-login {
+    font-weight: bold;
+    font-size: 18px;
+    width: 300px;
+    text-align: left;
+}

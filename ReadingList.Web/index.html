@@ -1,42 +1,179 @@
 ﻿<!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset='utf-8' />
-    <title>Reading List - prateek gupta</title>
-    <link rel='stylesheet' href='styles.css' />
-    <meta name='viewport' content='width=device-width' />
-    <!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"></script><![endif]-->
+    <title>Reading List :: Code-Neurons</title>
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/app.css" rel="stylesheet" />
 </head>
-<body>
-    <div id='wrapper'>
-        <article>
-            <header>
-                <h2>prateekgupta.uk</h2>
-                <h1>Reading List Application</h1>
+<body ng-app="app">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="http://codeneurons.net" target="_blank">Code-Neurons</a>
+            </div>
 
-                <form id='add-item'>
-                    <button type='submit'>Add</button>
-                    <div>
-                        <input type='text' id='new-item-text' placeholder='Enter reading list title' />
-                        <input type='text' id='new-item-url' placeholder='Enter reading list url' />
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <!--<ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Login</a></li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Logout</a></li>
+                </ul>-->
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" ng-controller="mainController as ctrl">
+        <div class="page-header" id="banner">
+            <div class="row">
+                <div class="col-lg-8 col-md-7 col-sm-6">
+                    <h1>Reading List</h1>
+                    <p class="lead">manage a list of your favourites, links, reading lists, watch later anywhere and everywhere</p>
+                </div>
+                <!--<div class="col-lg-4 col-md-5 col-sm-6">
+                        <div class="sponsor">
+                            <a href="http://www.shopify.com/?ref=bootswatch" target="_blank" onclick="_gaq.push(['_trackEvent', 'banner', 'click', 'shopify']);"><img src="../assets/img/shopify.png" alt="Shopify" onload="_gaq.push(['_trackEvent', 'banner', 'impression', 'shopify']);"></a>
+                        </div>
+                    </div>-->
+            </div>
+        </div>
+
+        <div id="login-section" ng-hide="ctrl.isLoggedIn">
+            <div class="row">
+                <div class="col-lg-8 col-md-7 col-sm-6">
+                    <blockquote>
+                        <p>Login using one of the providers below</p>
+                        <small>You do not need to create a new account and remember another password. Just use one of your existing accounts to login.</small>
+                    </blockquote>
+                </div>
+            </div>
+            <div class="row" ng-if="!!ctrl.errorMessage">
+                <div class="alert alert-danger">
+                    <p>{{ctrl.errorMessage}}</p>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-8 col-md-7 col-sm-6">
+                    <div class="form-group">
+                        <div class="input-group input-group-login">
+                            <span class="input-group-btn">
+                                <img src="/images/icons/microsoft.png" alt="Login using Microsoft Account" />
+                                <button class="btn btn-default btn-login" type="button" ng-click="ctrl.login('microsoftaccount')">Login using Microsoft Account</button>
+                            </span>
+                        </div>
+                        <div class="input-group input-group-login">
+                            <span class="input-group-btn">
+                                <img src="/images/icons/google.png" alt="Login using Google" />
+                                <button class="btn btn-default btn-login" type="button" ng-click="ctrl.login('google')">Login using Google</button>
+                            </span>
+                        </div>
+                        <div class="input-group input-group-login">
+                            <span class="input-group-btn">
+                                <img src="/images/icons/facebook.png" alt="Login using Facebook" />
+                                <button class="btn btn-default btn-login" type="button" ng-click="ctrl.login('facebook')">Login using Facebook</button>
+                            </span>
+                        </div>
+                        <div class="input-group input-group-login">
+                            <span class="input-group-btn">
+                                <img src="/images/icons/twitter.png" alt="Login using Twitter" />
+                                <button class="btn btn-default btn-login" type="button" ng-click="ctrl.login('twitter')">Login using Twitter</button>
+                            </span>
+                        </div>
+                        <div class="input-group input-group-login">
+                            <span class="input-group-btn">
+                                <img src="/images/icons/linkedin.png" alt="Login using LinkedIn" />
+                                <button class="btn btn-default btn-login" type="button" ng-click="ctrl.login('linkedin')">Login using LinkedIn</button>
+                            </span>
+                        </div>
+
                     </div>
-                </form>
-            </header>
+                </div>
+            </div>
+        </div>
 
-            <ul id='items'></ul>
-            <p id='summary'>Loading...</p>
-        </article>
-
-        <footer>
-            <a href='http://www.windowsazure.com/en-us/develop/mobile/'>
-                Learn more about Microsoft Azure Mobile Services
-            </a>
-            <ul id='errorlog'></ul>
-        </footer>
+        <div id="mainSection">
+            <div class="row">
+                <div class="col-lg-8 col-md-7 col-sm-6">
+                    <blockquote>
+                        <p>{{ctrl.infoMessage}}</p>
+                        <small></small>
+                    </blockquote>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-10 col-sm-10">
+                    <form name="addItemForm"></form>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Add new item</h3>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <td><label class="control-label" for="addTitle">Title</label></td>
+                                        <td><label class="control-label" for="addLink">URL/Link</label></td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tr>
+                                    <td>
+                                        <input class="form-control" id="addTitle" type="text" value="Enter the title..." required="required" ng-model="ctrl.newItem.title">
+                                    </td>
+                                    <td>
+                                        <input class="form-control" id="addLink" type="text" value="Enter/paste the link..." required="required" ng-model="ctrl.newItem.link">
+                                    </td>
+                                    <td style="width: 1%">
+                                        <button class="btn btn-primary" ng-click="ctrl.saveItem(ctrl.newItem)">Save</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-10 col-sm-10">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Your saved list</h3>
+                        </div>
+                        <div class="panel-body">
+                            <p class="text-warning" ng-if="ctrl.itemsList.length == 0">You do not have any saved list. Add an item to your list using the <strong>Add new item</strong> form above.</p>
+                            <table class="table table-condensed" ng-if="ctrl.itemsList.length > 0">
+                                <thead>
+                                    <tr>
+                                        <td style="width:1%"></td>
+                                        <td style="width: 99%"></td>
+                                        <td style="width: 1%"></td>
+                                    </tr>
+                                </thead>
+                                <tr ng-repeat="i in ctrl.itemsList">
+                                    <td></td>
+                                    <td><a href="{{i.url}}" title="{{i.text}}" target="_blank">{{i.text}}</a></td>
+                                    <td><button class="btn btn-danger btn-sm">Delete</button></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src='https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.1.min.js'></script>
     <script src='http://ajax.aspnetcdn.com/ajax/mobileservices/MobileServices.Web-1.2.5.min.js'></script>
-    <script src='page.js'></script>
+    <script src="Scripts/angular.js"></script>
+    <script src="js/app.js"></script>
+
 </body>
 </html>
